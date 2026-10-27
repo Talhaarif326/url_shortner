@@ -3,6 +3,6 @@ import { z } from "zod";
 export const tokenValidationSchema = z.object({
   id: z.string(),
   firstName: z.string(),
-  lastName: z.string(),
+  lastName: z.string().optional(),
   email: z.email(),
 });

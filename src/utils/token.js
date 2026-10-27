@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import "dotenv/config";
 import { tokenValidationSchema } from "../validations/token.validation.js";
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -8,7 +9,7 @@ export const createToken = async function (payload) {
     throw new Error({ message: validationResult.error.message });
   }
   const validatedPayload = validationResult.data;
-  const token = jwt.sign(validatedPayload, JWT_SECRET, { expiresIn: "1h" });
+  const token = jwt.sign(validatedPayload, JWT_SECRET);
 
   return token;
 };
@@ -18,6 +19,6 @@ export const tokenVerification = async function (token) {
     const decoded = jwt.verify(token, JWT_SECRET);
     return decoded;
   } catch (error) {
-    throw new Error({ message: "Invalid token" });
+    throw new Error({ message: error.messages });
   }
 };
